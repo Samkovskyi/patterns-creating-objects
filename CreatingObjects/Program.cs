@@ -24,7 +24,14 @@ namespace CreatingObjects
 
         static void ConfigureUser()
         {
-           PersonalManager mgr = new HumanPersonManager();
+            PersonalManager mgr = new PersonalManager(PersonBuilder
+                .Person()
+                .WithFirstName("Taras")
+                .WithLastName("Samkovskyi")
+                .WithPrimaryContact(new EmailAddress("cool@email.com"))
+                .WithSecondatyContact(new EmailAddress("alternate@email.com"))
+                .AddNoMoreContacts()
+                .Build);
             mgr.Notify("Hello");
             Console.WriteLine();
         }

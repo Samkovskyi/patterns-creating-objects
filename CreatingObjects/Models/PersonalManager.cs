@@ -7,9 +7,15 @@ using CreatingObjects.Interfaces;
 
 namespace CreatingObjects.Models
 {
-    public abstract class PersonalManager
+    public class PersonalManager
     {
-        protected abstract Func<IUser> CreateUser { get; }
+        private Func<IUser> UserFactory { get; }
+
+        public PersonalManager(Func<IUser> userFactoryFacrotry)
+        {
+            this.UserFactory = userFactoryFacrotry;
+        }
+        
         public void Notify(string message)
         {
            this.Enqueue(this.GetPrimaryContact(), message); 
@@ -17,7 +23,7 @@ namespace CreatingObjects.Models
 
         private IContactInfo GetPrimaryContact()
         {
-            return this.CreateUser().PrimaryContact;
+            return this.UserFactory().PrimaryContact;
         }
 
         private void Enqueue(IContactInfo contact, string message)

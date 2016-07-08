@@ -106,7 +106,6 @@
     <Compile Include="Interfaces\IUserIdentity.cs" />
     <Compile Include="Models\BillMurrayCard.cs" />
     <Compile Include="Models\EmailAddress.cs" />
-    <Compile Include="Models\HumanPersonManager.cs" />
     <Compile Include="Models\IdentityCard.cs" />
     <Compile Include="Models\MacAddress.cs" />
     <Compile Include="Models\Machine.cs" />
