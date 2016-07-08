@@ -32,18 +32,14 @@ namespace CreatingObjects
 
         static void ConfigureUserBuilder()
         {
-            PersonBuilder builder = new PersonBuilder();
-
-            builder.SetFirstName("Taras");
-            builder.SetLastName("Samkovskyi");
-
-            IContactInfo email = new EmailAddress("cool@email.com");
-            builder.Add(email);
-
-            builder.Add(new EmailAddress("alternate@email.com"));
-            builder.SetPrimaryContact(email);
-
-            Person person = builder.Build();
+            Person person = PersonBuilder
+                .Person()
+                .WithFirstName("Taras")
+                .WithLastName("Samkovskyi")
+                .WithPrimaryContact(new EmailAddress("cool@email.com"))
+                .WithSecondatyContact(new EmailAddress("alternate@email.com"))
+                .AddNoMoreContacts()
+                .Build();
 
             Console.WriteLine(person);
             Console.WriteLine();

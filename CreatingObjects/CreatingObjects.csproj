@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\Interfaces\IContactHolder.cs" />
+    <Compile Include="Builders\Interfaces\IFirstNameHolder.cs" />
+    <Compile Include="Builders\Interfaces\ILastNameHolder.cs" />
+    <Compile Include="Builders\Interfaces\IPersonBuilder.cs" />
+    <Compile Include="Builders\Interfaces\IPrimaryContactHolder.cs" />
     <Compile Include="Builders\Person\PersonBuilder.cs" />
     <Compile Include="Common\INonEmptyStringState.cs" />
     <Compile Include="Common\IPrimaryContactState.cs" />
@@ -69,7 +74,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Builders\Interfaces\" />
     <Folder Include="Builders\Machine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
