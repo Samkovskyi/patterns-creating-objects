@@ -17,6 +17,9 @@ namespace CreatingObjects.Models
             this.Producer = producer;
             this.Model = model;
         }
+
+        public IContactInfo PrimaryContact { get; }
+
         public void SetIdentity(IUserIdentity identity)
         {
             throw new NotImplementedException();

@@ -48,7 +48,8 @@ namespace CreatingObjects.Builders.Person
             {
                 FirstName = this.FirstName,
                 LastName = this.LastName,
-                Contacts = new List<IContactInfo>(this.Contacts) { contact }
+                Contacts = new List<IContactInfo>(this.Contacts) { contact },
+                PrimaryContact = this.PrimaryContact
             };
         }
 
@@ -61,7 +62,7 @@ namespace CreatingObjects.Builders.Person
 
             PersonBuilder builder = this.WithContacts(contact);
             builder.PrimaryContact = contact;
-            return this;
+            return builder;
         }
 
         public Models.Person Build()

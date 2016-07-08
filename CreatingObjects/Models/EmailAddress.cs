@@ -9,9 +9,15 @@ namespace CreatingObjects.Models
 {
     public class EmailAddress: IContactInfo
     {
+        private string email;
         public EmailAddress(string email)
         {
-            
+            this.email = email;
+        }
+
+        public override string ToString()
+        {
+            return email;
         }
     }
 }

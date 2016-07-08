@@ -15,33 +15,17 @@ namespace CreatingObjects
     {
         static void Main(string[] args)
         {
-            ConfigureUserBuilder();
+            ConfigureUser();
 
             Console.WriteLine("Reached end of demonstration...");
             Console.ReadLine();
         }
 
 
-        static void ConfigureUserFactory()
+        static void ConfigureUser()
         {
-            IUserFactory factory = new PersonFactory();
-            IUser user = factory.CreateUser("Taras", "Samkovskyi");
-            IUserIdentity id = factory.CreateIdentity();
-            user.SetIdentity(id);
-        }
-
-        static void ConfigureUserBuilder()
-        {
-            Person person = PersonBuilder
-                .Person()
-                .WithFirstName("Taras")
-                .WithLastName("Samkovskyi")
-                .WithPrimaryContact(new EmailAddress("cool@email.com"))
-                .WithSecondatyContact(new EmailAddress("alternate@email.com"))
-                .AddNoMoreContacts()
-                .Build();
-
-            Console.WriteLine(person);
+           PersonalManager mgr = new HumanPersonManager();
+            mgr.Notify("Hello");
             Console.WriteLine();
         }
     }
