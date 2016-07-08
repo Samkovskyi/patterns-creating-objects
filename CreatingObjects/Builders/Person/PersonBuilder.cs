@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,16 +13,10 @@ namespace CreatingObjects.Builders.Person
 {
     public class PersonBuilder: IFirstNameHolder, ILastNameHolder, IPrimaryContactHolder,IContactHolder, IPersonBuilder
     {
-        private INonEmptyStringState FirstNameState { get; set; } = new UninitializedString();
-        private INonEmptyStringState LastNameState { get; set; }= new UninitializedString();
-        private IList<IContactInfo>  Contacts { get; } = new List<IContactInfo>();
-        private IPrimaryContactState PrimaryContactState { get; set; }
-
-        private PersonBuilder()
-        {
-            this.Contacts = new List<IContactInfo>();
-            this.PrimaryContactState = new UninitializedPrimaryContact(this.Contacts.Contains);
-        }
+        private string FirstName { get; set; }
+        private string LastName { get; set; }
+        private IList<IContactInfo>  Contacts { get; set; } = new List<IContactInfo>();
+        private IContactInfo PrimaryContact { get; set; }
 
         public static IFirstNameHolder Person()
         {
@@ -30,53 +25,58 @@ namespace CreatingObjects.Builders.Person
 
         public ILastNameHolder WithFirstName(string firstName)
         {
-            this.FirstNameState = this.FirstNameState.Set(firstName);
-            return this;
+            return new PersonBuilder
+            {
+                FirstName = firstName
+            };
         }
 
         public IPrimaryContactHolder WithLastName(string lastName)
         {
-            this.LastNameState = this.LastNameState.Set(lastName);
-            return this;
+            return new PersonBuilder
+            {
+                FirstName = this.FirstName,
+                LastName = lastName
+            };
         }
 
-        public IContactHolder WithSecondatyContact(IContactInfo contact)
+        public IContactHolder WithSecondatyContact(IContactInfo contact) => WithContacts(contact);
+
+        public PersonBuilder WithContacts(IContactInfo contact)
         {
-            if (contact == null)
-                throw new ArgumentNullException();
-
-            if (Contacts.Contains(contact))
-                throw new ArgumentException();
-
-            this.Contacts.Add(contact);
-            return this;
+            return new PersonBuilder
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                Contacts = new List<IContactInfo>(this.Contacts) { contact }
+            };
         }
 
-        public IPersonBuilder AddNoMoreContacts()
-        {
-            return this;
-        }
+        public IPersonBuilder AddNoMoreContacts() => this;
 
         public IContactHolder WithPrimaryContact(IContactInfo contact)
         {
             if (contact == null)
                 throw new ArgumentNullException();
 
-            this.WithSecondatyContact(contact);
-            this.PrimaryContactState = this.PrimaryContactState.Set(contact);
+            PersonBuilder builder = this.WithContacts(contact);
+            builder.PrimaryContact = contact;
             return this;
         }
 
         public Models.Person Build()
         {
-            Models.Person person = new Models.Person(this.FirstNameState.Get(), this.LastNameState.Get());
+            Models.Person person = new Models.Person();
 
+            person.Name = this.FirstName;
+            person.Surname = this.LastName;
+            
             foreach (var contactInfo in this.Contacts)
             {
-                person.Add(contactInfo);
+                person.ContactsLsit.Add(contactInfo);
             }
 
-            person.SetPrimaryContact(this.PrimaryContactState.Get());
+            person.PrimaryContact = this.PrimaryContact;
 
             return person;
         }

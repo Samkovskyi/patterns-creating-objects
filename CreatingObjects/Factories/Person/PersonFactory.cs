@@ -13,7 +13,7 @@ namespace CreatingObjects.Factories.Person
     {
         public IUser CreateUser(string firstName, string lastName)
         {
-            return new Models.Person(firstName, lastName);
+            return new Models.Person();
         }
 
         public IUserIdentity CreateIdentity()
