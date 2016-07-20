@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +12,19 @@ namespace CreatingObjects.Models
     {
         public Producer Producer { get; set; }
         public string Model { get; set; }
+        private LegalEntity Owner { get; }
+        public IContactInfo PrimaryContact => this.Owner.EmailAddress;
 
-        public Machine(Producer producer, string model)
+        public Machine(Producer producer, string model, LegalEntity owningBussines)
         {
+            Contract.Requires<ArgumentNullException>(producer != null);
+            Contract.Requires<ArgumentNullException>(string.IsNullOrEmpty(model));
+            Contract.Requires<ArgumentNullException>(owningBussines != null);
+
             this.Producer = producer;
             this.Model = model;
+            this.Owner = owningBussines;
         }
-
-        public IContactInfo PrimaryContact { get; }
 
         public void SetIdentity(IUserIdentity identity)
         {

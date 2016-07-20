@@ -22,7 +22,8 @@ namespace CreatingObjects.Factories.Machine
         public IUser CreateUser(string producerName, string model)
         {
             Producer producer = this.GetProducer(producerName);
-            return new Models.Machine(producer, model);
+            //TODO: Fix creating LegalEntity object
+            return new Models.Machine(producer, model, new LegalEntity());
         }
 
         public IUserIdentity CreateIdentity()
